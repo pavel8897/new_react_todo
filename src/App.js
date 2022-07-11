@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import Thing from './Thing'
+import './style.css'
+import { nanoid } from 'nanoid'
 
-function App() {
+const ToDo = () => {
+  const deals = [
+    {id: 1, thing: 'Watch movie', done: false, cross: false},
+    {id: 2, thing: 'Read book', done: false, cross: false},
+    {id: 3, thing: 'Do sport', done: false, cross: false}
+  ]
+
+  const [todos, setTodos] = useState(deals)
+
+  const crossItem = (event, index) => {
+    event.preventDefault()
+    setTodos(todos.map(item => {
+      if(item.id === index) {
+        return {...item, cross: true}        
+      }
+      console.log(item.cross)
+      // console.log(index)
+      return item
+    }))
+  }
+  
+  let result = deals.map((item, index) => {
+    return <Thing
+      thing = {item.thing}
+      key = {item.id}
+      index = {item.id}
+      cross = {item.cross}
+      crossItem = {crossItem}
+    />
+  })
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <ul>
+        {result}
+      </ul>
     </div>
-  );
+  )
 }
 
-export default App;
+export default ToDo;
